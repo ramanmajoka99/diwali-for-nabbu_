@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Diwali — For Nabbu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0326;
+      --accent:#ffb400;
+      --soft:#ffdca8;
+      --pink:#ff6b9a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto; background: radial-gradient(ellipse at 20% 10%, rgba(255,180,64,0.06) 0%, rgba(255,75,85,0.02) 10%, transparent 20%), var(--bg); color:#fff; overflow-x:hidden}
+
+    header{padding:28px 20px;text-align:center}
+    .container{max-width:980px;margin:0 auto;padding:20px}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border-radius:18px; padding:28px; box-shadow: 0 8px 30px rgba(3,0,12,0.6); position:relative; overflow:hidden}
+
+    h1{font-size:2.4rem;margin:6px 0 4px;letter-spacing:0.6px}
+    p.lead{color:var(--soft); margin:6px 0 18px}
+
+    .message{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+
+    .glass{flex:1; min-width:260px}
+    .glass .title{font-weight:700; font-size:1.6rem}
+    .glass .subtitle{color:#ffe9d4}
+
+    .heart{width:140px;height:140px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--pink),#ff3b7a);box-shadow: 0 10px 30px rgba(255,90,120,0.12);transform-origin:center}
+    .heart:before{content:"❤";font-size:48px;display:block;opacity:0.98}
+
+    .controls{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
+    input[type=text]{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff;outline:none;width:200px}
+    button{padding:10px 14px;border-radius:10px;border:none;background:var(--accent);color:#111;font-weight:600;cursor:pointer}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#fff}
+
+    /* Footer message box */
+    .diya-row{display:flex;gap:16px;align-items:center;margin-top:18px}
+    .diya{width:86px;height:86px;border-radius:12px;background: linear-gradient(180deg,#ffdca8 0%, #ffe8c8 60%);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(255,160,64,0.12)}
+
+    /* fireworks canvas */
+    canvas#fireworks{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+
+    /* confetti */
+    .confetti{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+
+    /* Responsive */
+    @media (max-width:600px){
+      .heart{width:110px;height:110px}
+      h1{font-size:1.8rem}
+    }
+
+    /* floating diyas */
+    .floating{position:absolute;right:12px;bottom:12px;transform:translateY(0);animation:float 6s ease-in-out infinite}
+    .floating svg{width:120px;height:120px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.4))}
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+
+    /* small caption */
+    .signature{margin-top:16px;color:#ffe6d8;font-size:0.95rem}
+
+  </style>
+</head>
+<body>
+  <canvas id="fireworks"></canvas>
+  <div class="container">
+    <header>
+      <h1>Happy Diwali — For <span id="displayName">Nabbu</span> ✨</h1>
+      <p class="lead">A little surprise from someone who loves you. Click the buttons below — light the diyas and make a wish together.</p>
+    </header>
+
+    <main class="card">
+      <div class="message">
+        <div class="glass">
+          <div class="title">To <span id="toName">Nabbu</span>,</div>
+          <div class="subtitle">On this Diwali, my heart lights up because of you. Every diya I light tonight is a promise — more smiles, more hugs, more memories. 💛</div>
+
+          <div class="controls">
+            <input id="nameInput" type="text" placeholder="Change name (e.g. Nabbu)" />
+            <button id="applyName">Apply</button>
+            <button id="sparkBtn">Light Fireworks</button>
+            <button id="confettiBtn">Shower Confetti</button>
+            <button id="downloadBtn" class="ghost">Download Page</button>
+          </div>
+
+          <div class="diya-row">
+            <div class="diya">
+              <svg viewBox="0 0 64 64" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="32" cy="44" rx="18" ry="6" fill="#c37b2d" opacity="0.12"/>
+                <path d="M16 36c0 0 5-12 16-12s16 12 16 12-4 8-16 8S16 36 16 36z" fill="#ffb400"/>
+                <path d="M30 26c.6-3 2.7-5 2-8 .9 3 1.8 4.2 1 8-1 4-2 4-3 0z" fill="#ffecd1"/>
+              </svg>
+            </div>
+
+            <div class="diya" title="Made with love">
+              <div style="text-align:center">
+                <div style="font-weight:700">I love you</div>
+                <div style="font-size:12px;color:#7a4b2a;margin-top:6px">— Always</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="signature">From: <strong id="fromName">Your Secret Admirer</strong></div>
+        </div>
+
+        <div class="heart" id="bigHeart" title="For Nabbu"></div>
+      </div>
+
+      <div class="floating" aria-hidden="true">
+        <!-- simple diya svg -->
+        <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+          <g>
+            <path d="M48 10c10 0 18 8 18 18 0 8-9 15-18 24-9-9-18-16-18-24C30 18 38 10 48 10z" fill="#ffdb8a"/>
+            <path d="M20 66c0 22 56 22 56 0-12 6-44 6-56 0z" fill="#ff842b"/>
+            <circle cx="48" cy="26" r="6" fill="#ff6b6b"/>
+          </g>
+        </svg>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- small confetti container -->
+  <div id="confettiLayer" class="confetti"></div>
+
+  <script>
+    // Personalization logic
+    const nameInput = document.getElementById('nameInput');
+    const applyName = document.getElementById('applyName');
+    const displayName = document.getElementById('displayName');
+    const toName = document.getElementById('toName');
+    const fromName = document.getElementById('fromName');
+    const bigHeart = document.getElementById('bigHeart');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    applyName.addEventListener('click', ()=>{
+      const v = nameInput.value.trim();
+      if(v){ displayName.textContent = v; toName.textContent = v; bigHeart.title = 'For ' + v; }
+    });
+
+    // Download current page as HTML file
+    downloadBtn.addEventListener('click', ()=>{
+      const html = '<!doctype html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([html], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `Happy-Diwali-For-${(displayName.textContent||'Nabbu')}.html`;
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    // Simple confetti
+    const confettiLayer = document.getElementById('confettiLayer');
+    function makeConfetti(){
+      for(let i=0;i<150;i++){
+        const el = document.createElement('div');
+        el.style.position='absolute';
+        el.style.left = Math.random()*100 + '%';
+        el.style.top = Math.random()*-20 + '%';
+        el.style.width = (6+Math.random()*8)+'px';
+        el.style.height = (6+Math.random()*6)+'px';
+        el.style.background = `hsl(${Math.random()*360} 85% 60%)`;
+        el.style.opacity = 0.95;
+        el.style.transform = `rotate(${Math.random()*360}deg)`;
+        el.style.borderRadius = (Math.random()>0.5? '2px':'50%');
+        el.style.transition = 'transform 3s linear, top 3s ease-in';
+        confettiLayer.appendChild(el);
+        setTimeout(()=>{ el.style.top = 110 + Math.random()*30 + '%'; el.style.transform = 'rotate('+Math.random()*720+'deg) translateY(0)'; }, 50+i*5);
+        setTimeout(()=>el.remove(), 4200+i*10);
+      }
+    }
+
+    document.getElementById('confettiBtn').addEventListener('click', ()=>{
+      makeConfetti();
+    });
+
+    // Fireworks canvas
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    let cw, ch;
+    function resize(){ cw = canvas.width = innerWidth; ch = canvas.height = innerHeight; }
+    addEventListener('resize', resize); resize();
+
+    // particle system
+    class Firework{
+      constructor(x,y,dx,dy,color){ this.x=x;this.y=y;this.dx=dx;this.dy=dy;this.life=80;this.color=color }
+      step(){ this.x+=this.dx; this.y+=this.dy; this.dy+=0.06; this.dx*=0.99; this.life-- }
+      draw(){ ctx.beginPath();ctx.globalAlpha = Math.max(0, this.life/80); ctx.fillStyle=this.color; ctx.arc(this.x,this.y, Math.max(0,2*this.life/40),0,Math.PI*2); ctx.fill(); }
+    }
+
+    let fireworks = [];
+    function launch(x,y){
+      const hue = Math.floor(Math.random()*360);
+      for(let i=0;i<40;i++){
+        const speed = (Math.random()*4)+1;
+        const angle = Math.random()*Math.PI*2;
+        const dx = Math.cos(angle)*speed;
+        const dy = Math.sin(angle)*speed;
+        fireworks.push(new Firework(x,y,dx,dy, `hsl(${hue} 85% 60%)`));
+      }
+    }
+
+    function anim(){
+      ctx.clearRect(0,0,cw,ch);
+      for(let i=fireworks.length-1;i>=0;i--){ const p = fireworks[i]; p.step(); p.draw(); if(p.life<=0) fireworks.splice(i,1); }
+      requestAnimationFrame(anim);
+    }
+    anim();
+
+    // click to make fireworks
+    document.getElementById('sparkBtn').addEventListener('click', ()=>{
+      for(let i=0;i<6;i++) launch(Math.random()*cw, Math.random()*ch*0.6 + 40);
+    });
+
+    // auto gentle sparkles near top
+    setInterval(()=>{ if(Math.random()<0.6) launch(Math.random()*cw, Math.random()*ch*0.4 + 20); }, 900);
+
+    // small heart pulse animation
+    let scale = 1, dir = 1;
+    setInterval(()=>{ scale += dir*0.02; if(scale>1.06) dir=-1; if(scale<0.96) dir=1; bigHeart.style.transform = `scale(${scale})`; }, 90);
+
+    // Helpful hint: focus name input on load
+    nameInput.placeholder = 'Type a sweet name... try Nabbu';
+
+  </script>
+</body>
+</html>
